@@ -1,0 +1,114 @@
+========================================
+FIREBASE CONFIGURATION TEMPLATE
+========================================
+
+Copy your Firebase config from Firebase Console and fill in the values below.
+
+Step 1: Go to https://console.firebase.google.com/
+Step 2: Select your project
+Step 3: Click Project Settings (gear icon)
+Step 4: Go to "General" tab
+Step 5: Scroll down to "SDK setup and configuration"
+Step 6: Select "Config" option
+Step 7: Copy the values and paste them below
+
+========================================
+YOUR FIREBASE CONFIG
+========================================
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY_HERE",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID_HERE",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID_HERE",
+  appId: "YOUR_APP_ID_HERE"
+};
+
+========================================
+WHERE TO PASTE
+========================================
+
+In index.html, find this section (around line 180):
+
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+Replace the placeholder values with your actual Firebase config values.
+
+========================================
+DATABASE STRUCTURE
+========================================
+
+After configuration, your Realtime Database will store alarms at:
+
+/alarm
+├── active (boolean): true when alarm is set
+├── time (string): "HH:MM" format (24-hour)
+├── subject (string): exam subject name
+└── timestamp (string): ISO 8601 timestamp
+
+Example:
+{
+  "active": true,
+  "time": "14:30",
+  "subject": "Mathematics",
+  "timestamp": "2026-04-18T10:30:00.000Z"
+}
+
+========================================
+SECURITY RULES (Development Only)
+========================================
+
+In Firebase Console:
+1. Go to Realtime Database
+2. Click "Rules" tab
+3. Replace with:
+
+{
+  "rules": {
+    "alarm": {
+      ".write": true,
+      ".read": true
+    }
+  }
+}
+
+4. Click Publish
+
+⚠️ WARNING: These rules allow anyone to read/write.
+For production, use authentication and proper validation.
+
+========================================
+PRODUCTION SECURITY RULES
+========================================
+
+{
+  "rules": {
+    "alarm": {
+      ".write": "auth.uid != null",
+      ".read": "auth.uid != null"
+    }
+  }
+}
+
+========================================
+HELP & SUPPORT
+========================================
+
+Issue: "Cannot find Firebase config"
+Solution: Check all values are correctly pasted, no trailing/leading spaces
+
+Issue: "Permission denied"
+Solution: Check Realtime Database security rules, ensure /alarm path allows write
+
+Issue: "Alarm not updating in database"
+Solution: Check browser console (F12) for errors, verify Firebase project active
+
+For more help, visit: https://firebase.google.com/docs
