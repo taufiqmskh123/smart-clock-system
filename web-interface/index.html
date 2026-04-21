@@ -3,195 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Exam Controller</title>
+    <title>Multi-Room Exam Controller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(20, 20, 40, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            color: #00d4ff;
-            font-size: 28px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .header p {
-            color: #b0b0c0;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            color: #00d4ff;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .input-row.full {
-            grid-template-columns: 1fr;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 10px;
-            color: #ffffff;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #00d4ff;
-            background: rgba(0, 212, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-        }
-
-        input::placeholder {
-            color: #707080;
-        }
-
-        input[type="number"] {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .info-text {
-            font-size: 12px;
-            color: #707080;
-            margin-top: 5px;
-            margin-left: 2px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 35px;
-        }
-
-        button {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-set-alarm {
-            background: linear-gradient(135deg, #00d4ff, #0099cc);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-set-alarm:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
-        }
-
-        .btn-set-alarm:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .btn-reset {
-            background: rgba(255, 255, 255, 0.1);
-            color: #b0b0c0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-reset:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-        }
-
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .status {
-            margin-top: 30px;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 500;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .status.success {
-            background: rgba(0, 212, 0, 0.1);
-            border-color: rgba(0, 212, 0, 0.3);
-            color: #00d400;
-        }
-
-        .status.error {
-            background: rgba(255, 50, 50, 0.1);
-            border-color: rgba(255, 50, 50, 0.3);
-            color: #ff3232;
-        }
-
-        .status.info {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: rgba(0, 212, 255, 0.3);
-            color: #00d4ff;
-        }
-
-        .status.hidden {
-            visibility: hidden;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .spinner {
@@ -200,130 +16,207 @@
             height: 12px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top-color: #00d4ff;
+            border-top-color: currentColor;
             animation: spin 0.6s linear infinite;
             margin-right: 8px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
         }
 
-        .firebase-config {
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border-left: 3px solid #ff9500;
+        .glow-magenta {
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
         }
 
-        .firebase-config p {
-            color: #b0b0c0;
-            font-size: 11px;
-            margin-bottom: 8px;
-            line-height: 1.5;
+        .border-cyan-glow {
+            border-color: rgba(0, 212, 255, 0.5);
         }
 
-        .config-code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            font-size: 10px;
-            color: #00d4ff;
-            overflow-x: auto;
-            line-height: 1.4;
+        .border-magenta-glow {
+            border-color: rgba(255, 0, 255, 0.5);
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .input-row {
-                gap: 12px;
-            }
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🕐 Smart Exam Controller</h1>
-            <p>Real-time Exam Alarm Management</p>
+<body class="min-h-screen py-12 px-4">
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-cyan-400 mb-3 drop-shadow-lg">
+                🏫 Multi-Room Exam Controller
+            </h1>
+            <p class="text-gray-400 text-lg tracking-widest">Real-time Exam Management Dashboard</p>
         </div>
 
-        <form id="alarmForm">
-            <!-- Hour Input -->
-            <div class="form-group">
-                <label for="hour">Hour</label>
-                <input 
-                    type="number" 
-                    id="hour" 
-                    min="0" 
-                    max="23" 
-                    required 
-                    placeholder="0-23"
-                    value="0"
-                >
-                <div class="info-text">Enter hour in 24-hour format (0-23)</div>
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Room 101 Card - Cyan -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border border-cyan-500 border-opacity-30 glow-cyan backdrop-blur-xl">
+                <div class="flex items-center gap-3 mb-8 pb-6 border-b border-cyan-500 border-opacity-20">
+                    <div class="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
+                    <h2 class="text-3xl font-bold text-cyan-400">Room 101</h2>
+                </div>
+
+                <form id="room101Form" class="space-y-6">
+                    <!-- Subject Input -->
+                    <div class="form-group">
+                        <label class="block text-cyan-300 text-sm font-semibold uppercase tracking-wider mb-2">
+                            Subject Name
+                        </label>
+                        <input 
+                            type="text" 
+                            id="subject101" 
+                            required 
+                            maxlength="50"
+                            placeholder="e.g., Mathematics, Physics"
+                            class="w-full px-4 py-3 bg-slate-700 bg-opacity-50 border border-cyan-500 border-opacity-30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:bg-opacity-70 transition-all text-sm font-semibold"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">Max 50 characters</p>
+                    </div>
+
+                    <!-- Hour & Minute Inputs -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-cyan-300 text-sm font-semibold uppercase tracking-wider mb-2">
+                                Hour (0-23)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="hour101" 
+                                min="0" 
+                                max="23" 
+                                required 
+                                value="0"
+                                class="w-full px-4 py-3 bg-slate-700 bg-opacity-50 border border-cyan-500 border-opacity-30 rounded-lg text-white focus:outline-none focus:border-cyan-400 focus:bg-opacity-70 transition-all text-center font-bold text-lg"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-cyan-300 text-sm font-semibold uppercase tracking-wider mb-2">
+                                Minute (0-59)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="minute101" 
+                                min="0" 
+                                max="59" 
+                                required 
+                                value="0"
+                                class="w-full px-4 py-3 bg-slate-700 bg-opacity-50 border border-cyan-500 border-opacity-30 rounded-lg text-white focus:outline-none focus:border-cyan-400 focus:bg-opacity-70 transition-all text-center font-bold text-lg"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Update Button -->
+                    <button 
+                        type="submit" 
+                        id="updateBtn101"
+                        class="w-full mt-8 px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-400 text-slate-900 font-bold uppercase tracking-widest rounded-lg hover:from-cyan-400 hover:to-cyan-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm shadow-lg hover:shadow-cyan-500/50"
+                    >
+                        Update Room 101
+                    </button>
+                </form>
+
+                <!-- Status for Room 101 -->
+                <div id="status101" class="hidden mt-6 p-4 rounded-lg border text-sm font-semibold text-center"></div>
             </div>
 
-            <!-- Minute Input -->
-            <div class="form-group">
-                <label for="minute">Minute</label>
-                <input 
-                    type="number" 
-                    id="minute" 
-                    min="0" 
-                    max="59" 
-                    required 
-                    placeholder="0-59"
-                    value="0"
-                >
-                <div class="info-text">Enter minute (0-59)</div>
+            <!-- Room 102 Card - Magenta -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border border-magenta-500 border-opacity-30 glow-magenta backdrop-blur-xl" style="border-color: rgba(255, 0, 255, 0.3); box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);">
+                <div class="flex items-center gap-3 mb-8 pb-6 border-b" style="border-color: rgba(255, 0, 255, 0.2);">
+                    <div class="w-3 h-3 rounded-full animate-pulse" style="background-color: rgba(255, 0, 255, 1);"></div>
+                    <h2 class="text-3xl font-bold" style="color: rgba(255, 0, 255, 1);">Room 102</h2>
+                </div>
+
+                <form id="room102Form" class="space-y-6">
+                    <!-- Subject Input -->
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold uppercase tracking-wider mb-2" style="color: rgba(255, 0, 255, 0.8);">
+                            Subject Name
+                        </label>
+                        <input 
+                            type="text" 
+                            id="subject102" 
+                            required 
+                            maxlength="50"
+                            placeholder="e.g., Chemistry, Biology"
+                            class="w-full px-4 py-3 bg-slate-700 bg-opacity-50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:bg-opacity-70 transition-all text-sm font-semibold"
+                            style="border: 1px solid rgba(255, 0, 255, 0.3);"
+                            onfocus="this.style.borderColor='rgba(255, 0, 255, 0.6)'"
+                            onblur="this.style.borderColor='rgba(255, 0, 255, 0.3)'"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">Max 50 characters</p>
+                    </div>
+
+                    <!-- Hour & Minute Inputs -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold uppercase tracking-wider mb-2" style="color: rgba(255, 0, 255, 0.8);">
+                                Hour (0-23)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="hour102" 
+                                min="0" 
+                                max="23" 
+                                required 
+                                value="0"
+                                class="w-full px-4 py-3 bg-slate-700 bg-opacity-50 rounded-lg text-white focus:outline-none focus:bg-opacity-70 transition-all text-center font-bold text-lg"
+                                style="border: 1px solid rgba(255, 0, 255, 0.3);"
+                                onfocus="this.style.borderColor='rgba(255, 0, 255, 0.6)'"
+                                onblur="this.style.borderColor='rgba(255, 0, 255, 0.3)'"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold uppercase tracking-wider mb-2" style="color: rgba(255, 0, 255, 0.8);">
+                                Minute (0-59)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="minute102" 
+                                min="0" 
+                                max="59" 
+                                required 
+                                value="0"
+                                class="w-full px-4 py-3 bg-slate-700 bg-opacity-50 rounded-lg text-white focus:outline-none focus:bg-opacity-70 transition-all text-center font-bold text-lg"
+                                style="border: 1px solid rgba(255, 0, 255, 0.3);"
+                                onfocus="this.style.borderColor='rgba(255, 0, 255, 0.6)'"
+                                onblur="this.style.borderColor='rgba(255, 0, 255, 0.3)'"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Update Button -->
+                    <button 
+                        type="submit" 
+                        id="updateBtn102"
+                        class="w-full mt-8 px-6 py-3 text-slate-900 font-bold uppercase tracking-widest rounded-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm shadow-lg"
+                        style="background: linear-gradient(to right, rgba(255, 0, 255, 1), rgba(255, 0, 255, 0.8)); box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);"
+                        onmouseover="this.style.background='linear-gradient(to right, rgba(255, 0, 255, 0.9), rgba(255, 0, 255, 0.7))'; this.style.boxShadow='0 0 25px rgba(255, 0, 255, 0.6)'"
+                        onmouseout="this.style.background='linear-gradient(to right, rgba(255, 0, 255, 1), rgba(255, 0, 255, 0.8))'; this.style.boxShadow='0 0 15px rgba(255, 0, 255, 0.4)'"
+                    >
+                        Update Room 102
+                    </button>
+                </form>
+
+                <!-- Status for Room 102 -->
+                <div id="status102" class="hidden mt-6 p-4 rounded-lg border text-sm font-semibold text-center"></div>
             </div>
+        </div>
 
-            <!-- Subject Name Input -->
-            <div class="form-group">
-                <label for="subject">Subject Name</label>
-                <input 
-                    type="text" 
-                    id="subject" 
-                    required 
-                    placeholder="e.g., Mathematics, Physics, Chemistry"
-                    maxlength="50"
-                >
-                <div class="info-text">Maximum 50 characters</div>
-            </div>
-
-            <!-- Buttons -->
-            <div class="button-group">
-                <button type="submit" class="btn-set-alarm" id="setAlarmBtn">
-                    Set Alarm
-                </button>
-                <button type="reset" class="btn-reset" id="resetBtn">
-                    Reset
-                </button>
-            </div>
-        </form>
-
-        <!-- Status Message -->
-        <div class="status hidden" id="status"></div>
-
-        <!-- Firebase Configuration Info -->
-        <div class="firebase-config">
-            <p><strong>📋 Firebase Configuration Status</strong></p>
-            <p>✅ Configuration loaded from synchro-clock project</p>
-            <div class="config-code">
+        <!-- Firebase Config Info -->
+        <div class="mt-12 p-6 bg-slate-900 bg-opacity-50 border border-amber-500 border-opacity-30 rounded-xl backdrop-blur-sm">
+            <p class="text-amber-400 font-semibold mb-2">📋 Firebase Configuration</p>
+            <p class="text-gray-400 text-sm mb-3">✅ Connected to synchro-clock Firebase project</p>
+            <div class="bg-slate-800 bg-opacity-50 p-4 rounded-lg font-mono text-xs text-cyan-300 overflow-auto border border-gray-600">
 ✓ Project: synchro-clock<br>
 ✓ Database: asia-southeast1<br>
-✓ Connected to Firebase Realtime Database<br>
-Ready to set alarms!
+✓ Paths: /rooms/101, /rooms/102<br>
+✓ Ready to update exam alarms
             </div>
         </div>
     </div>
@@ -331,9 +224,9 @@ Ready to set alarms!
     <!-- Firebase SDK v9 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-        // ✅ FIREBASE CONFIG - SYNCHRO-CLOCK PROJECT
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDXu9qHfIABfo4f65Vg83_flsYDmhlIoA0",
             authDomain: "synchro-clock.firebaseapp.com",
@@ -345,117 +238,162 @@ Ready to set alarms!
             measurementId: "G-F7JSH7Z6LY"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // DOM Elements
-        const form = document.getElementById('alarmForm');
-        const hourInput = document.getElementById('hour');
-        const minuteInput = document.getElementById('minute');
-        const subjectInput = document.getElementById('subject');
-        const setAlarmBtn = document.getElementById('setAlarmBtn');
-        const status = document.getElementById('status');
+        // ===== ROOM 101 LOGIC =====
+        const form101 = document.getElementById('room101Form');
+        const hour101 = document.getElementById('hour101');
+        const minute101 = document.getElementById('minute101');
+        const subject101 = document.getElementById('subject101');
+        const updateBtn101 = document.getElementById('updateBtn101');
+        const status101 = document.getElementById('status101');
 
-        // Show status message
-        function showStatus(message, type = 'info', duration = 5000) {
-            status.textContent = message;
-            status.className = `status ${type}`;
+        function showStatus(statusElement, message, type = 'info', duration = 4000) {
+            statusElement.textContent = message;
+            statusElement.className = `p-4 rounded-lg border text-sm font-semibold text-center`;
+            
+            if (type === 'success') {
+                statusElement.classList.add('bg-green-900', 'bg-opacity-30', 'border-green-500', 'border-opacity-50', 'text-green-400');
+            } else if (type === 'error') {
+                statusElement.classList.add('bg-red-900', 'bg-opacity-30', 'border-red-500', 'border-opacity-50', 'text-red-400');
+            } else {
+                statusElement.classList.add('bg-blue-900', 'bg-opacity-30', 'border-blue-500', 'border-opacity-50', 'text-blue-400');
+            }
+            
+            statusElement.classList.remove('hidden');
             
             if (duration > 0) {
                 setTimeout(() => {
-                    status.classList.add('hidden');
+                    statusElement.classList.add('hidden');
                 }, duration);
             }
         }
 
-        // Validate inputs
-        function validateInputs() {
-            const hour = parseInt(hourInput.value);
-            const minute = parseInt(minuteInput.value);
-            const subject = subjectInput.value.trim();
+        function validateInputs(hour, minute, subject) {
+            const h = parseInt(hour);
+            const m = parseInt(minute);
+            const s = subject.trim();
 
-            if (isNaN(hour) || hour < 0 || hour > 23) {
-                showStatus('❌ Hour must be between 0-23', 'error', 4000);
-                return false;
-            }
-
-            if (isNaN(minute) || minute < 0 || minute > 59) {
-                showStatus('❌ Minute must be between 0-59', 'error', 4000);
-                return false;
-            }
-
-            if (subject.length === 0) {
-                showStatus('❌ Please enter a subject name', 'error', 4000);
-                return false;
-            }
-
-            if (subject.length > 50) {
-                showStatus('❌ Subject name is too long (max 50 characters)', 'error', 4000);
-                return false;
-            }
+            if (isNaN(h) || h < 0 || h > 23) return false;
+            if (isNaN(m) || m < 0 || m > 59) return false;
+            if (s.length === 0) return false;
 
             return true;
         }
 
-        // Handle form submission
-        form.addEventListener('submit', async (e) => {
+        form101.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Validate inputs
-            if (!validateInputs()) {
+            const hour = parseInt(hour101.value);
+            const minute = parseInt(minute101.value);
+            const subject = subject101.value.trim();
+
+            if (!validateInputs(hour, minute, subject)) {
+                showStatus(status101, '❌ Invalid input values', 'error', 4000);
                 return;
             }
 
-            // Disable button and show loading
-            setAlarmBtn.disabled = true;
-            showStatus('⏳ Setting alarm...', 'info', 0);
+            updateBtn101.disabled = true;
+            showStatus(status101, '⏳ Updating Room 101...', 'info', 0);
 
             try {
-                const hour = parseInt(hourInput.value);
-                const minute = parseInt(minuteInput.value);
-                const subject = subjectInput.value.trim();
-
-                // Update individual Firebase paths using update() function
-                // This ensures we only modify these specific keys: /alarm/hour, /alarm/minute, /alarm/subject, /alarm/active
-                await update(ref(database, 'alarm'), {
+                await set(ref(database, 'rooms/101'), {
                     hour: hour,
                     minute: minute,
                     subject: subject,
                     active: true
                 });
 
-                const timeFormatted = String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
-                showStatus(`✅ Alarm set successfully for ${timeFormatted} - ${subject}`, 'success', 5000);
+                const timeStr = String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
+                showStatus(status101, `✅ Room 101 updated: ${timeStr} - ${subject}`, 'success', 5000);
                 
-                // Reset form after success
                 setTimeout(() => {
-                    form.reset();
-                    hourInput.value = '0';
-                    minuteInput.value = '0';
+                    form101.reset();
+                    hour101.value = '0';
+                    minute101.value = '0';
                 }, 1000);
 
             } catch (error) {
-                console.error('Error setting alarm:', error);
-                showStatus(`❌ Error: ${error.message}`, 'error', 5000);
+                console.error('Room 101 Error:', error);
+                showStatus(status101, `❌ Error: ${error.message}`, 'error', 5000);
             } finally {
-                setAlarmBtn.disabled = false;
+                updateBtn101.disabled = false;
             }
         });
 
-        // Real-time input validation
-        hourInput.addEventListener('change', () => {
-            let hour = parseInt(hourInput.value);
-            if (isNaN(hour)) hour = 0;
-            hour = Math.max(0, Math.min(23, hour));
-            hourInput.value = hour;
+        // Input validation for Room 101
+        hour101.addEventListener('change', () => {
+            let h = parseInt(hour101.value) || 0;
+            h = Math.max(0, Math.min(23, h));
+            hour101.value = h;
         });
 
-        minuteInput.addEventListener('change', () => {
-            let minute = parseInt(minuteInput.value);
-            if (isNaN(minute)) minute = 0;
-            minute = Math.max(0, Math.min(59, minute));
-            minuteInput.value = minute;
+        minute101.addEventListener('change', () => {
+            let m = parseInt(minute101.value) || 0;
+            m = Math.max(0, Math.min(59, m));
+            minute101.value = m;
+        });
+
+        // ===== ROOM 102 LOGIC =====
+        const form102 = document.getElementById('room102Form');
+        const hour102 = document.getElementById('hour102');
+        const minute102 = document.getElementById('minute102');
+        const subject102 = document.getElementById('subject102');
+        const updateBtn102 = document.getElementById('updateBtn102');
+        const status102 = document.getElementById('status102');
+
+        form102.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const hour = parseInt(hour102.value);
+            const minute = parseInt(minute102.value);
+            const subject = subject102.value.trim();
+
+            if (!validateInputs(hour, minute, subject)) {
+                showStatus(status102, '❌ Invalid input values', 'error', 4000);
+                return;
+            }
+
+            updateBtn102.disabled = true;
+            showStatus(status102, '⏳ Updating Room 102...', 'info', 0);
+
+            try {
+                await set(ref(database, 'rooms/102'), {
+                    hour: hour,
+                    minute: minute,
+                    subject: subject,
+                    active: true
+                });
+
+                const timeStr = String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
+                showStatus(status102, `✅ Room 102 updated: ${timeStr} - ${subject}`, 'success', 5000);
+                
+                setTimeout(() => {
+                    form102.reset();
+                    hour102.value = '0';
+                    minute102.value = '0';
+                }, 1000);
+
+            } catch (error) {
+                console.error('Room 102 Error:', error);
+                showStatus(status102, `❌ Error: ${error.message}`, 'error', 5000);
+            } finally {
+                updateBtn102.disabled = false;
+            }
+        });
+
+        // Input validation for Room 102
+        hour102.addEventListener('change', () => {
+            let h = parseInt(hour102.value) || 0;
+            h = Math.max(0, Math.min(23, h));
+            hour102.value = h;
+        });
+
+        minute102.addEventListener('change', () => {
+            let m = parseInt(minute102.value) || 0;
+            m = Math.max(0, Math.min(59, m));
+            minute102.value = m;
         });
     </script>
 </body>
