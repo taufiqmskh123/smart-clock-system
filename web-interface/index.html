@@ -135,6 +135,14 @@
                     >
                         Update Room 101
                     </button>
+
+                    <button 
+                        type="button" 
+                        id="abortBtn101"
+                        class="w-full mt-3 px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-bold uppercase tracking-widest rounded-lg hover:from-red-500 hover:to-red-400 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm shadow-lg hover:shadow-red-500/50 border border-cyan-400 border-opacity-30"
+                    >
+                        ⛔ Abort Exam
+                    </button>
                 </form>
 
                 <!-- Status for Room 101 -->
@@ -236,6 +244,17 @@
                     >
                         Update Room 102
                     </button>
+
+                    <button 
+                        type="button" 
+                        id="abortBtn102"
+                        class="w-full mt-3 px-6 py-3 text-white font-bold uppercase tracking-widest rounded-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm shadow-lg"
+                        style="background: linear-gradient(to right, rgba(220, 38, 38, 1), rgba(220, 38, 38, 0.8)); box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); border: 1px solid rgba(255, 0, 255, 0.3);"
+                        onmouseover="this.style.background='linear-gradient(to right, rgba(220, 38, 38, 0.9), rgba(220, 38, 38, 0.7))'; this.style.boxShadow='0 0 25px rgba(220, 38, 38, 0.6)'; this.style.borderColor='rgba(255, 0, 255, 0.6)'"
+                        onmouseout="this.style.background='linear-gradient(to right, rgba(220, 38, 38, 1), rgba(220, 38, 38, 0.8))'; this.style.boxShadow='0 0 15px rgba(220, 38, 38, 0.4)'; this.style.borderColor='rgba(255, 0, 255, 0.3)'"
+                    >
+                        ⛔ Abort Exam
+                    </button>
                 </form>
 
                 <!-- Status for Room 102 -->
@@ -259,7 +278,7 @@
     <!-- Firebase SDK v9 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+        import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
         // Firebase Config
         const firebaseConfig = {
@@ -381,6 +400,30 @@
             duration101.value = d;
         });
 
+        // ===== ROOM 101 ABORT LOGIC =====
+        const abortBtn101 = document.getElementById('abortBtn101');
+
+        abortBtn101.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            abortBtn101.disabled = true;
+            showStatus(status101, '⏳ Aborting Room 101 exam...', 'info', 0);
+
+            try {
+                await update(ref(database, 'rooms/101'), {
+                    active: false
+                });
+
+                showStatus(status101, `⛔ Room 101 exam aborted`, 'success', 5000);
+
+            } catch (error) {
+                console.error('Room 101 Abort Error:', error);
+                showStatus(status101, `❌ Error: ${error.message}`, 'error', 5000);
+            } finally {
+                abortBtn101.disabled = false;
+            }
+        });
+
         // ===== ROOM 102 LOGIC =====
         const form102 = document.getElementById('room102Form');
         const hour102 = document.getElementById('hour102');
@@ -449,6 +492,30 @@
             let d = parseInt(duration102.value) || 120;
             d = Math.max(1, Math.min(300, d));
             duration102.value = d;
+        });
+
+        // ===== ROOM 102 ABORT LOGIC =====
+        const abortBtn102 = document.getElementById('abortBtn102');
+
+        abortBtn102.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            abortBtn102.disabled = true;
+            showStatus(status102, '⏳ Aborting Room 102 exam...', 'info', 0);
+
+            try {
+                await update(ref(database, 'rooms/102'), {
+                    active: false
+                });
+
+                showStatus(status102, `⛔ Room 102 exam aborted`, 'success', 5000);
+
+            } catch (error) {
+                console.error('Room 102 Abort Error:', error);
+                showStatus(status102, `❌ Error: ${error.message}`, 'error', 5000);
+            } finally {
+                abortBtn102.disabled = false;
+            }
         });
     </script>
 </body>
